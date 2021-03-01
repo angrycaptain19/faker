@@ -11,9 +11,7 @@ class Provider(CompanyProvider):
         """
         def _checksum(digits):
             factors = (5, 4, 3, 2, 7, 6, 5, 4)
-            sum_ = 0
-            for i in range(len(digits)):
-                sum_ += digits[i] * factors[i]
+            sum_ = sum(digits[i] * factors[i] for i in range(len(digits)))
             return sum_ % 11
 
         while True:

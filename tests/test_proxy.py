@@ -141,9 +141,9 @@ class TestFakerProxyClass:
         fake = Faker(locale)
 
         # Get current state of each factory's random instance
-        states = {}
-        for locale, factory in fake.items():
-            states[locale] = factory.random.getstate()
+        states = {
+            locale: factory.random.getstate() for locale, factory in fake.items()
+        }
 
         # Create a new random instance for en_US factory with seed value
         fake.seed_locale('en_US', 0)

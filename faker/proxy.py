@@ -84,14 +84,14 @@ class Faker:
         :param attr: attribute name
         :return: the appropriate attribute
         """
-        if attr == 'seed':
-            msg = (
-                'Calling `.seed()` on instances is deprecated. '
-                'Use the class method `Faker.seed()` instead.'
-            )
-            raise TypeError(msg)
-        else:
+        if attr != 'seed':
             return super().__getattribute__(attr)
+
+        msg = (
+            'Calling `.seed()` on instances is deprecated. '
+            'Use the class method `Faker.seed()` instead.'
+        )
+        raise TypeError(msg)
 
     def __getattr__(self, attr):
         """
@@ -133,10 +133,9 @@ class Faker:
             return factories[0]
 
         if weights:
-            factory = choices_distribution(factories, weights, length=1)[0]
+            return choices_distribution(factories, weights, length=1)[0]
         else:
-            factory = random.choice(factories)
-        return factory
+            return random.choice(factories)
 
     def _map_provider_method(self, method_name):
         """
@@ -214,9 +213,8 @@ class Faker:
 
         if len(self._factories) == 1:
             return self._factories[0].random
-        else:
-            msg = 'Proxying `random` getter calls is not implemented in multiple locale mode.'
-            raise NotImplementedError(msg)
+        msg = 'Proxying `random` getter calls is not implemented in multiple locale mode.'
+        raise NotImplementedError(msg)
 
     @random.setter
     def random(self, value):
@@ -277,7 +275,7 @@ class UniqueProxy:
             # None open as a valid return value.
             retval = self._sentinel
 
-            for i in range(_UNIQUE_ATTEMPTS):
+            for _ in range(_UNIQUE_ATTEMPTS):
                 if retval not in generated:
                     break
                 retval = function(*args, **kwargs)

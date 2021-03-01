@@ -538,7 +538,7 @@ class Provider(BaseProvider):
             (20, 'name'),
             (3, 'pyint', {'max_value': 20}),
         ]
-        data_columns = data_columns if data_columns else default_data_columns
+        data_columns = data_columns or default_data_columns
         align_map = {
             'left': '<',
             'middle': '^',

@@ -97,16 +97,15 @@ class Provider(BarcodeProvider):
             raise ValueError('`upc_a` has an invalid value')
         upc_e_template = '{number_system_digit}{mfr_code}{product_code}{extra}{check_digit}'
         if m1:
-            upc_e = upc_e_template.format(**m1.groupdict())
+            return upc_e_template.format(**m1.groupdict())
         elif m2:
             groupdict = m2.groupdict()
             groupdict['extra'] = str(len(groupdict.get('mfr_code')))
-            upc_e = upc_e_template.format(**groupdict)
+            return upc_e_template.format(**groupdict)
         else:
             groupdict = m3.groupdict()
             groupdict['product_code'] = ''
-            upc_e = upc_e_template.format(**groupdict)
-        return upc_e
+            return upc_e_template.format(**groupdict)
 
     def _upc_ae(self, base=None, number_system_digit=None):
         """Create a 12-digit UPC-A barcode that can be converted to UPC-E.
@@ -178,9 +177,8 @@ class Provider(BarcodeProvider):
         """
         if upc_ae_mode is True:
             return self._upc_ae(base=base, number_system_digit=number_system_digit)
-        else:
-            ean13 = self.ean13(leading_zero=True)
-            return ean13[1:]
+        ean13 = self.ean13(leading_zero=True)
+        return ean13[1:]
 
     def upc_e(self, base=None, number_system_digit=None, safe_mode=True):
         """Generate an 8-digit UPC-E barcode.

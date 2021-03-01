@@ -121,11 +121,9 @@ class Provider(BaseProvider):
     @lowercase
     def email(self, domain=None):
         if domain:
-            email = f'{self.user_name()}@{domain}'
-        else:
-            pattern = self.random_element(self.email_formats)
-            email = "".join(self.generator.parse(pattern).split(" "))
-        return email
+            return f'{self.user_name()}@{domain}'
+        pattern = self.random_element(self.email_formats)
+        return "".join(self.generator.parse(pattern).split(" "))
 
     @lowercase
     def safe_domain_name(self):
@@ -173,10 +171,9 @@ class Provider(BaseProvider):
     @slugify_unicode
     def user_name(self):
         pattern = self.random_element(self.user_name_formats)
-        username = self._to_ascii(
+        return self._to_ascii(
             self.bothify(self.generator.parse(pattern)).lower(),
         )
-        return username
 
     @lowercase
     def hostname(self, levels=1):
@@ -509,7 +506,7 @@ class Provider(BaseProvider):
         return address
 
     def mac_address(self):
-        mac = [self.generator.random.randint(0x00, 0xff) for _ in range(0, 6)]
+        mac = [self.generator.random.randint(0x00, 0xff) for _ in range(6)]
         return ":".join(map(lambda x: "%02x" % x, mac))
 
     def port_number(self, is_system=False, is_user=False, is_dynamic=False):
@@ -535,7 +532,7 @@ class Provider(BaseProvider):
         return self.random_element(self.uri_pages)
 
     def uri_path(self, deep=None):
-        deep = deep if deep else self.generator.random.randint(1, 3)
+        deep = deep or self.generator.random.randint(1, 3)
         return "/".join(
             self.random_elements(self.uri_paths, length=deep),
         )

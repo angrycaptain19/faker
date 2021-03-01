@@ -60,10 +60,7 @@ class Provider(BaseProvider):
         return self.random_element(self.last_names)
 
     def name_male(self):
-        if hasattr(self, 'formats_male'):
-            formats = self.formats_male
-        else:
-            formats = self.formats
+        formats = self.formats_male if hasattr(self, 'formats_male') else self.formats
         pattern = self.random_element(formats)
         return self.generator.parse(pattern)
 

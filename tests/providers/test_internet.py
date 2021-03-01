@@ -232,21 +232,21 @@ class TestInternetProvider:
         provider = InternetProvider(Generator())
 
         subnets = [ip_network('10.0.0.0/8'), ip_network('11.0.0.0/8')]
-        valid_weights = [1, 1]
-        list_of_invalid_weights = [
-            [1, 2, 3],   # List size does not match subnet list size
-            ['a', 'b'],  # List size matches, but elements are invalid
-            11,        # Not a list or valid iterable
-        ]
-
         with patch('faker.providers.internet.choices_distribution',
-                   wraps=choices_distribution) as mock_choices_fn:
+                       wraps=choices_distribution) as mock_choices_fn:
             with patch('faker.generator.random.choice',
-                       wraps=random.choice) as mock_random_choice:
+                               wraps=random.choice) as mock_random_choice:
+                valid_weights = [1, 1]
                 # If weights argument is valid, only `choices_distribution` should be called
                 provider._random_ipv4_address_from_subnets(subnets, valid_weights)
                 assert mock_choices_fn.call_count == 1
                 assert mock_random_choice.call_count == 0
+
+                list_of_invalid_weights = [
+                    [1, 2, 3],   # List size does not match subnet list size
+                    ['a', 'b'],  # List size matches, but elements are invalid
+                    11,        # Not a list or valid iterable
+                ]
 
                 # If weights argument is invalid, calls to `choices_distribution` will fail
                 # and calls to `random.choice` will be made as failover behavior
@@ -290,10 +290,7 @@ class TestInternetProvider:
             'PUT', 'TRACE',
         ]
 
-        got_methods = set()
-        for _ in range(num_samples):
-            got_methods.add(faker.http_method())
-
+        got_methods = {faker.http_method() for _ in range(num_samples)}
         assert expected_methods == sorted(got_methods)
 
     def test_dga(self, faker):
@@ -618,7 +615,7 @@ class TestEnPh:
     num_samples = 100
 
     def test_domain_name(self, faker, num_samples):
-        for i in range(num_samples):
+        for _ in range(num_samples):
             domain = faker.domain_name()
             validate_domain(domain)
 

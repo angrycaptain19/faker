@@ -14,10 +14,7 @@ class Provider(SsnProvider):
         # see http://nl.wikipedia.org/wiki/Burgerservicenummer (in Dutch)
         def _checksum(digits):
             factors = (9, 8, 7, 6, 5, 4, 3, 2, -1)
-            s = 0
-            for i in range(len(digits)):
-                s += digits[i] * factors[i]
-            return s
+            return sum(digits[i] * factors[i] for i in range(len(digits)))
 
         while True:
             # create an array of first 8 elements initialized randomly

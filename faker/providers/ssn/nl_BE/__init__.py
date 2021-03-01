@@ -24,8 +24,7 @@ class Provider(SsnProvider):
         """
         # see http://nl.wikipedia.org/wiki/Burgerservicenummer (in Dutch)
         def _checksum(digits):
-            res = 97 - (digits % 97)
-            return res
+            return 97 - (digits % 97)
 
         # Generate a date (random)
         mydate = self.generator.date()

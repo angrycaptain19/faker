@@ -32,10 +32,11 @@ class UtilsTestCase(unittest.TestCase):
         c_pop = len([i for i in samples if i == 'c'])
         d_pop = len([i for i in samples if i == 'd'])
 
-        boundaries = []
         tolerance = 5
-        for probability in p:
-            boundaries.append([100 * probability + tolerance,  100 * probability - tolerance])
+        boundaries = [
+            [100 * probability + tolerance, 100 * probability - tolerance]
+            for probability in p
+        ]
 
         assert boundaries[0][0] > a_pop > boundaries[0][1]
         assert boundaries[1][0] > b_pop > boundaries[1][1]

@@ -10,12 +10,12 @@ def checksum(digits):
     """
     s = 0
     p = len(digits) + 1
-    for i in range(0, len(digits)):
+    for i in range(len(digits)):
         s += digits[i] * p
         p -= 1
 
     reminder = s % 11
-    if reminder == 0 or reminder == 1:
+    if reminder in [0, 1]:
         return 0
     else:
         return 11 - reminder
@@ -48,7 +48,7 @@ class Provider(SsnProvider):
         Check:  https://www.ngmatematica.com/2014/02/como-determinar-o-digito-verificador-do.html
         """
 
-        digits = self.generator.random.sample(range(0, 9), 8)
+        digits = self.generator.random.sample(range(9), 8)
         checksum = sum(i * digits[i - 2] for i in range(2, 10))
         last_digit = 11 - (checksum % 11)
 

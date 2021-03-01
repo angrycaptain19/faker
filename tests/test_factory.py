@@ -178,7 +178,7 @@ class FactoryTestCase(unittest.TestCase):
         # Locales known to contain `*_male` and `*_female`.
         for locale in ("bg_BG", "dk_DK", "en", "ru_RU", "tr_TR"):
             fake = Faker(locale=locale)
-            for x in range(20):  # Probabilistic testing.
+            for _ in range(20):  # Probabilistic testing.
                 self.assertIsInstance(fake.prefix(), str)
                 self.assertIsInstance(fake.suffix(), str)
 
@@ -251,7 +251,7 @@ class FactoryTestCase(unittest.TestCase):
         from faker.providers.ssn.en_US import Provider
 
         provider = Provider(self.generator)
-        for i in range(1000):
+        for _ in range(1000):
             ssn = provider.ssn()
             assert len(ssn) == 11
             assert ssn[0] != '9'
@@ -263,7 +263,7 @@ class FactoryTestCase(unittest.TestCase):
     def test_nl_BE_ssn_valid(self):
         fake = Faker('nl_BE')
 
-        for i in range(1000):
+        for _ in range(1000):
             ssn = fake.ssn()
             assert len(ssn) == 11
             gen_seq = ssn[6:9]

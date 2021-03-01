@@ -103,7 +103,7 @@ class Provider(CompanyProvider):
             begin_pos = catch_phrase.find(word)
             end_pos = catch_phrase.find(word, begin_pos + 1)
 
-            if begin_pos != -1 and begin_pos != end_pos:
+            if begin_pos not in [-1, end_pos]:
                 return False
 
         return True

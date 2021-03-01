@@ -179,8 +179,8 @@ class TestNeNP(unittest.TestCase):
         # should be a prefix.
         assert name[-2] in NeProvider.first_names
         assert name[-1] in NeProvider.last_names
-        prefixes = NeProvider.prefixes_male + NeProvider.prefixes_female
         if len(name) == 3:
+            prefixes = NeProvider.prefixes_male + NeProvider.prefixes_female
             assert name[0] in prefixes
 
 
@@ -307,19 +307,16 @@ class TestCsCZ(unittest.TestCase):
         male_name = self.fake.name_male()
         name_parts = male_name.split(" ")
         first_name, last_name = "", ""
-        if len(name_parts) == 2:
+        if (
+            len(name_parts) == 3
+            and name_parts[-1] in CsCZProvider.suffixes
+            or len(name_parts) == 2
+        ):
             first_name = name_parts[0]
             last_name = name_parts[1]
-        elif len(name_parts) == 4:
+        elif len(name_parts) in [3, 4]:
             first_name = name_parts[1]
             last_name = name_parts[2]
-        elif len(name_parts) == 3:
-            if name_parts[-1] in CsCZProvider.suffixes:
-                first_name = name_parts[0]
-                last_name = name_parts[1]
-            else:
-                first_name = name_parts[1]
-                last_name = name_parts[2]
         assert first_name in CsCZProvider.first_names_male
         assert last_name in CsCZProvider.last_names_male
 
@@ -327,19 +324,16 @@ class TestCsCZ(unittest.TestCase):
         female_name = self.fake.name_female()
         name_parts = female_name.split(" ")
         first_name, last_name = "", ""
-        if len(name_parts) == 2:
+        if (
+            len(name_parts) == 3
+            and name_parts[-1] in CsCZProvider.suffixes
+            or len(name_parts) == 2
+        ):
             first_name = name_parts[0]
             last_name = name_parts[1]
-        elif len(name_parts) == 4:
+        elif len(name_parts) in [3, 4]:
             first_name = name_parts[1]
             last_name = name_parts[2]
-        elif len(name_parts) == 3:
-            if name_parts[-1] in CsCZProvider.suffixes:
-                first_name = name_parts[0]
-                last_name = name_parts[1]
-            else:
-                first_name = name_parts[1]
-                last_name = name_parts[2]
         assert first_name in CsCZProvider.first_names_female
         assert last_name in CsCZProvider.last_names_female
 

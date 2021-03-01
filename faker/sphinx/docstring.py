@@ -154,11 +154,11 @@ class ProviderMethodDocstring:
     def _beautify_kwargs(self, kwargs):
         def _repl_whitespace(match):
             quoted = match.group(1) or match.group(2)
-            return quoted if quoted else ''
+            return quoted or ''
 
         def _repl_comma(match):
             quoted = match.group(1) or match.group(2)
-            return quoted if quoted else ', '
+            return quoted or ', '
 
         # First, remove all whitespaces and tabs not within quotes
         result = re.sub(r'("[^"]*")|(\'[^\']*\')|[ \t]+', _repl_whitespace, kwargs)
@@ -202,10 +202,11 @@ class ProviderMethodDocstring:
 
             try:
                 Faker.seed(sample.seed)
-                results = '\n'.join([
+                results = '\n'.join(
                     self._stringify_result(eval(command, eval_scope))
                     for _ in range(sample.size)
-                ])
+                )
+
             except Exception:
                 msg = f'Sample generation failed for method `{self._method}` with arguments `{sample.kwargs}`.'
                 self._log_warning(msg)

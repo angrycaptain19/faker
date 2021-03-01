@@ -54,13 +54,13 @@ def latinize(value):
                   'ΟΥ ΑΥ ΕΥ '
                   'Ου Αυ Ευ '
                   'ου αυ ευ').split()
-        replace = ('TH CH PS '
-                   'th ch ps '
-                   'OU AU EU '
-                   'Ou Au Eu '
-                   'ou au eu').split()
         matched = match.group(0)
         if matched in search:
+            replace = ('TH CH PS '
+                       'th ch ps '
+                       'OU AU EU '
+                       'Ou Au Eu '
+                       'ou au eu').split()
             return replace[search.index(matched)]
         return matched
 

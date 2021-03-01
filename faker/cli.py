@@ -43,7 +43,7 @@ def print_provider(doc,
         remains = 150 - margin
         separator = '#'
         for line in lines:
-            for i in range(0, (len(line) // remains) + 1):
+            for i in range((len(line) // remains) + 1):
                 print(f"\t{signature:<{margin}}{separator} {line[i * remains:(i + 1) * remains]}", file=output)
                 signature = separator = ' '
 

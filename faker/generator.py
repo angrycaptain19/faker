@@ -122,11 +122,9 @@ class Generator:
         generator.get_arguments('small')
         """
         if group in self.__config['arguments'] and argument:
-            result = self.__config['arguments'][group].get(argument)
+            return self.__config['arguments'][group].get(argument)
         else:
-            result = self.__config['arguments'].get(group)
-
-        return result
+            return self.__config['arguments'].get(group)
 
     def del_arguments(self, group, argument=None):
         """

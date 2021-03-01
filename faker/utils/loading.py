@@ -8,21 +8,19 @@ from typing import List, Set
 
 
 def get_path(module: ModuleType) -> str:
-    if getattr(sys, 'frozen', False):
-        # frozen
-
-        if getattr(sys, '_MEIPASS', False):
-            # PyInstaller
-            lib_dir = Path(getattr(sys, '_MEIPASS'))
-        else:
-            # others
-            lib_dir = Path(sys.executable).parent / 'lib'
-
-        path = lib_dir.joinpath(*module.__package__.split("."))
-    else:
+    if not getattr(sys, 'frozen', False):
         # unfrozen
-        path = Path(module.__file__).parent
-    return path
+        return Path(module.__file__).parent
+    # frozen
+
+    if getattr(sys, '_MEIPASS', False):
+        # PyInstaller
+        lib_dir = Path(getattr(sys, '_MEIPASS'))
+    else:
+        # others
+        lib_dir = Path(sys.executable).parent / 'lib'
+
+    return lib_dir.joinpath(*module.__package__.split("."))
 
 
 def list_module(module: ModuleType) -> List[str]:

@@ -357,7 +357,6 @@ class TestMiscProvider:
     def test_dsv_with_row_ids(self, faker, num_samples):
         data_columns = ['????', '?????']
         for _ in range(num_samples):
-            counter = 0
             num_rows = faker.random.randint(1, 1000)
             dsv = faker.dsv(
                 header=None, data_columns=data_columns,
@@ -367,19 +366,18 @@ class TestMiscProvider:
 
             # Verify each row has correct number of columns
             # and row ids increment correctly
-            for row in reader:
+            for counter, row in enumerate(reader, start=1):
                 assert len(row) == len(data_columns) + 1
-                counter += 1
                 assert row[0] == str(counter)
 
             # Verify correct number of lines read
             assert reader.line_num == num_rows
 
     def test_dsv_data_columns(self, faker):
-        num_rows = 10
-        data_columns = ['{{name}}', '#??-####', '{{address}}', '{{phone_number}}']
         with patch.object(faker['en_US'], 'pystr_format') as mock_pystr_format:
             mock_pystr_format.assert_not_called()
+            num_rows = 10
+            data_columns = ['{{name}}', '#??-####', '{{address}}', '{{phone_number}}']
             faker.dsv(data_columns=data_columns, num_rows=num_rows)
 
             # pystr_format will be called for each data column and each row
@@ -393,21 +391,21 @@ class TestMiscProvider:
                 assert kwargs == {}
 
     def test_dsv_csvwriter_kwargs(self, faker):
-        data_keys = ['header', 'data_columns', 'num_rows', 'include_row_ids']
-        test_kwargs = {
-            'dialect': 'excel',
-            'header': ['Column 1', 'Column 2'],
-            'data_columns': ['????', '?????'],
-            'num_rows': 5,
-            'include_row_ids': True,
-            'delimiter': ';',
-            'invalid_kwarg': 'invalid_value',
-        }
         with patch('faker.providers.misc.csv.writer') as mock_writer:
             mock_writer.assert_not_called()
+            test_kwargs = {
+                'dialect': 'excel',
+                'header': ['Column 1', 'Column 2'],
+                'data_columns': ['????', '?????'],
+                'num_rows': 5,
+                'include_row_ids': True,
+                'delimiter': ';',
+                'invalid_kwarg': 'invalid_value',
+            }
             faker.dsv(**test_kwargs)
             assert mock_writer.call_count == 1
 
+            data_keys = ['header', 'data_columns', 'num_rows', 'include_row_ids']
             # Remove all data generation kwargs
             for key in data_keys:
                 del test_kwargs[key]
@@ -417,40 +415,40 @@ class TestMiscProvider:
                 assert kwargs == test_kwargs
 
     def test_csv_helper_method(self, faker):
-        kwargs = {
-            'header': ['Column 1', 'Column 2'],
-            'data_columns': ['????', '?????'],
-            'num_rows': 5,
-            'include_row_ids': True,
-        }
         with patch('faker.providers.misc.Provider.dsv') as mock_dsv:
             mock_dsv.assert_not_called()
+            kwargs = {
+                'header': ['Column 1', 'Column 2'],
+                'data_columns': ['????', '?????'],
+                'num_rows': 5,
+                'include_row_ids': True,
+            }
             faker.csv(**kwargs)
             kwargs['delimiter'] = ','
             mock_dsv.assert_called_once_with(**kwargs)
 
     def test_tsv_helper_method(self, faker):
-        kwargs = {
-            'header': ['Column 1', 'Column 2'],
-            'data_columns': ['????', '?????'],
-            'num_rows': 5,
-            'include_row_ids': True,
-        }
         with patch('faker.providers.misc.Provider.dsv') as mock_dsv:
             mock_dsv.assert_not_called()
+            kwargs = {
+                'header': ['Column 1', 'Column 2'],
+                'data_columns': ['????', '?????'],
+                'num_rows': 5,
+                'include_row_ids': True,
+            }
             faker.tsv(**kwargs)
             kwargs['delimiter'] = '\t'
             mock_dsv.assert_called_once_with(**kwargs)
 
     def test_psv_helper_method(self, faker):
-        kwargs = {
-            'header': ['Column 1', 'Column 2'],
-            'data_columns': ['????', '?????'],
-            'num_rows': 5,
-            'include_row_ids': True,
-        }
         with patch('faker.providers.misc.Provider.dsv') as mock_dsv:
             mock_dsv.assert_not_called()
+            kwargs = {
+                'header': ['Column 1', 'Column 2'],
+                'data_columns': ['????', '?????'],
+                'num_rows': 5,
+                'include_row_ids': True,
+            }
             faker.psv(**kwargs)
             kwargs['delimiter'] = '|'
             mock_dsv.assert_called_once_with(**kwargs)

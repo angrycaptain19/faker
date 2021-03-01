@@ -46,8 +46,8 @@ class TestCurrencyProvider:
 
     @patch('faker.providers.currency.Provider.random_element')
     def test_currency_symbol_with_invalid_code(self, mock_random_element, faker):
-        invalid_code = 'FTW'
         with pytest.raises(KeyError):
+            invalid_code = 'FTW'
             faker.currency_symbol(code=invalid_code)
         mock_random_element.assert_not_called()
 

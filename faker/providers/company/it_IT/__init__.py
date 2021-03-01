@@ -336,9 +336,9 @@ class Provider(CompanyProvider):
         """
         :example 'Robust full-range hub'
         """
-        result = []
-        for word_list in self.catch_phrase_words:
-            result.append(self.random_element(word_list))
+        result = [
+            self.random_element(word_list) for word_list in self.catch_phrase_words
+        ]
 
         return " ".join(result)
 
@@ -346,10 +346,7 @@ class Provider(CompanyProvider):
         """
         :example 'integrate extensible convergence'
         """
-        result = []
-        for word_list in self.bsWords:
-            result.append(self.random_element(word_list))
-
+        result = [self.random_element(word_list) for word_list in self.bsWords]
         return " ".join(result)
 
     def _random_vat_office(self):

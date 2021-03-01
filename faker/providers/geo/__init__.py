@@ -982,11 +982,10 @@ class Provider(BaseProvider):
             return Decimal(str(self.generator.random.randint(-180000000, 180000000) / 1000000)).quantize(
                 Decimal(".000001"),
             )
-        else:
-            center = float(center)
-            radius = float(radius)
-            geo = self.generator.random.uniform(center - radius, center + radius)
-            return Decimal(str(geo)).quantize(Decimal(".000001"))
+        center = float(center)
+        radius = float(radius)
+        geo = self.generator.random.uniform(center - radius, center + radius)
+        return Decimal(str(geo)).quantize(Decimal(".000001"))
 
     def latitude(self):
         # Latitude has a range of -90 to 90, so divide by two.

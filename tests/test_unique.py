@@ -12,7 +12,7 @@ class TestUniquenessClass:
         # There are (at time of writing 690) first names in the
         # US identity provider. Birthday paradox puts the chances of
         # no duplicates in 250 selections as low enough to be impossible
-        for i in range(250):
+        for _ in range(250):
             first_name = fake.unique.first_name()
             assert first_name not in names
             names.add(first_name)
@@ -30,7 +30,7 @@ class TestUniquenessClass:
     def test_uniqueness_clear(self):
         fake = Faker()
 
-        for i in range(2):
+        for _ in range(2):
             fake.unique.boolean()
 
         fake.unique.clear()
@@ -45,7 +45,7 @@ class TestUniquenessClass:
         """
         fake = Faker()
 
-        for i in range(10):
+        for _ in range(10):
             fake.unique.random_int(min=1, max=10)
 
         # Different signature, so new pool. If they shared a pool

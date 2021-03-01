@@ -37,11 +37,10 @@ class Provider(InternetProvider):
         check = self.random_int(0, 99)
         if check % 100 < 40:
             company_acronym = self.generator.format('random_company_acronym')
-            if len(company_acronym) == 2:
-                company_type = self.generator.format('company_type')
-                return company_acronym + company_type
-            else:
+            if len(company_acronym) != 2:
                 return company_acronym
+            company_type = self.generator.format('company_type')
+            return company_acronym + company_type
         else:
             if check % 2 == 0:
                 name_part = self.generator.format('last_name')
@@ -51,8 +50,7 @@ class Provider(InternetProvider):
             company_nouns = company_noun_chain.split(' ')
             if len(company_nouns) == 1:
                 return name_part + company_noun_chain
-            else:
-                company_type = self.generator.format('company_type')
-                company_elements = [name_part] + company_nouns
-                acronym = ''.join([word[0] for word in company_elements])
-                return acronym + company_type
+            company_type = self.generator.format('company_type')
+            company_elements = [name_part] + company_nouns
+            acronym = ''.join(word[0] for word in company_elements)
+            return acronym + company_type

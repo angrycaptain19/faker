@@ -77,13 +77,11 @@ class Provider(AutomotiveProvider):
             lambda x: self.PLATE_MAP[nums.pop()],
             self.LICENSE_FORMAT_AR,
         )
-        ar_plate = re.sub(
+        return re.sub(
             r'\?',
             lambda x: self.PLATE_MAP[chars.pop()],
             numerated,
         )
-
-        return ar_plate
 
     def license_plate(self):
         """Generate a license plate.

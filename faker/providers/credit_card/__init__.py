@@ -80,8 +80,7 @@ class Provider(BaseProvider):
         """Generate a valid credit card number."""
         card = self._credit_card_type(card_type)
         prefix = self.random_element(card.prefixes)
-        number = self._generate_number(self.numerify(prefix), card.length)
-        return number
+        return self._generate_number(self.numerify(prefix), card.length)
 
     def credit_card_expire(self, start='now', end='+10y', date_format='%m/%y'):
         """Generate a credit card expiry date.
@@ -141,12 +140,10 @@ class Provider(BaseProvider):
         reverse = number[::-1]
         # Calculate sum
         tot = 0
-        pos = 0
-        while pos < length - 1:
+        for pos in range(0, length - 1, 2):
             tot += Provider.luhn_lookup[reverse[pos]]
             if pos != (length - 2):
                 tot += int(reverse[pos + 1])
-            pos += 2
         # Calculate check digit
         check_digit = (10 - (tot % 10)) % 10
         number += str(check_digit)

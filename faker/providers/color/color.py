@@ -93,7 +93,7 @@ class RandomColor:
         if generator:
             self.random = generator.random
         else:
-            self.seed = seed if seed else random.randint(0, sys.maxsize)
+            self.seed = seed or random.randint(0, sys.maxsize)
             self.random = random.Random(self.seed)
 
         for color_name, color_attrs in self.colormap.items():
@@ -178,21 +178,19 @@ class RandomColor:
     def set_format(self, hsv, color_format):
         """Handle conversion of HSV values into desired format."""
         if color_format == 'hsv':
-            color = f'hsv({hsv[0]}, {hsv[1]}, {hsv[2]})'
+            return f'hsv({hsv[0]}, {hsv[1]}, {hsv[2]})'
 
         elif color_format == 'hsl':
             hsl = tuple(self.hsv_to_hsl(hsv))
-            color = f'hsl({hsl[0]}, {hsl[1]}, {hsl[2]})'
+            return f'hsl({hsl[0]}, {hsl[1]}, {hsl[2]})'
 
         elif color_format == 'rgb':
             rgb = tuple(self.hsv_to_rgb(hsv))
-            color = f'rgb({rgb[0]}, {rgb[1]}, {rgb[2]})'
+            return f'rgb({rgb[0]}, {rgb[1]}, {rgb[2]})'
 
         else:
             rgb = tuple(self.hsv_to_rgb(hsv))
-            color = f'#{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}'
-
-        return color
+            return f'#{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}'
 
     def get_minimum_brightness(self, h, s):
         """Return the minimum allowed brightness for ``h`` and ``s``."""
@@ -235,10 +233,8 @@ class RandomColor:
         else:
             if v2 < v1:
                 v1, v2 = v2, v1
-            if v1 < 0:
-                v1 = 0
-            if v2 > 360:
-                v2 = 360
+            v1 = max(v1, 0)
+            v2 = min(v2, 360)
             return [v1, v2]
 
     def get_saturation_range(self, hue):
@@ -288,8 +284,5 @@ class RandomColor:
         v = v / 100
         l = 0.5 * v * (2 - s)   # noqa: E741
 
-        if l in [0, 1]:
-            s = 0
-        else:
-            s = v * s / (1 - math.fabs(2 * l - 1))
+        s = 0 if l in [0, 1] else v * s / (1 - math.fabs(2 * l - 1))
         return (int(c) for c in [h, s * 100, l * 100])

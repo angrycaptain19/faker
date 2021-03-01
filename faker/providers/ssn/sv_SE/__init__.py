@@ -38,9 +38,7 @@ class Provider(SsnProvider):
         suffix = f'{self.generator.random.randrange(0, 999):03}'
         luhn_checksum = str(calculate_luhn(chk_date + suffix))
         hyphen = '-' if dash else ''
-        pnr = f'{pnr_date}{hyphen}{suffix}{luhn_checksum}'
-
-        return pnr
+        return f'{pnr_date}{hyphen}{suffix}{luhn_checksum}'
 
     ORG_ID_DIGIT_1 = (1, 2, 3, 5, 6, 7, 8, 9)
 
@@ -61,8 +59,7 @@ class Provider(SsnProvider):
         prefix = '16' if long else ''
         hyphen = '-' if dash else ''
 
-        org_id = f'{prefix}{onr_one}{hyphen}{onr_two}{luhn_checksum}'
-        return org_id
+        return f'{prefix}{onr_one}{hyphen}{onr_two}{luhn_checksum}'
 
     def vat_id(self):
         """
@@ -70,8 +67,7 @@ class Provider(SsnProvider):
         :return: A random Swedish VAT ID, based on a valid Org ID
         """
         oid = self.org_id(long=True, dash=False)
-        vid = Provider._org_to_vat(oid)
-        return vid
+        return Provider._org_to_vat(oid)
 
     def org_and_vat_id(self, long=False, dash=True):
         """Returns matching Org ID and VAT number"""

@@ -911,23 +911,23 @@ class TestEnPh(unittest.TestCase):
         Faker.seed(0)
 
     def test_PH_sss(self):
-        for i in range(self.num_sample_runs):
+        for _ in range(self.num_sample_runs):
             assert self.sss_pattern.match(self.fake.sss())
 
     def test_PH_gsis(self):
-        for i in range(self.num_sample_runs):
+        for _ in range(self.num_sample_runs):
             assert self.gsis_pattern.match(self.fake.gsis())
 
     def test_PH_philhealth(self):
-        for i in range(self.num_sample_runs):
+        for _ in range(self.num_sample_runs):
             assert self.philhealth_pattern.match(self.fake.philhealth())
 
     def test_PH_pagibig(self):
-        for i in range(self.num_sample_runs):
+        for _ in range(self.num_sample_runs):
             assert self.pagibig_pattern.match(self.fake.pagibig())
 
     def test_PH_umid(self):
-        for i in range(self.num_sample_runs):
+        for _ in range(self.num_sample_runs):
             assert self.umid_pattern.match(self.fake.umid())
 
 

@@ -130,14 +130,14 @@ def _thai_strftime(
         # of the week.
         year_G = int(dt_obj.strftime("%G"))
         if buddhist_era:
-            year_G = year_G + _BE_AD_DIFFERENCE
+            year_G += _BE_AD_DIFFERENCE
         str_ = f'{year_G:04}'
     elif fmt_char == "g":
         # Same year as in ``%G'',
         # but as a decimal number without century (00-99).
         year_G = int(dt_obj.strftime("%G"))
         if buddhist_era:
-            year_G = year_G + _BE_AD_DIFFERENCE
+            year_G += _BE_AD_DIFFERENCE
         str_ = f'{year_G % 100:02}'
     elif fmt_char == "v":
         # BSD extension, ' 6-Oct-1976'

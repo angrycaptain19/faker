@@ -5,10 +5,7 @@ from .. import Provider as CompanyProvider
 
 def calculate_checksum(value):
     factors = [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8][-len(value):]
-    check_sum = 0
-    for number, factor in zip(value, factors):
-        check_sum += int(number) * factor
-
+    check_sum = sum(int(number) * factor for number, factor in zip(value, factors))
     return str((check_sum % 11) % 10)
 
 

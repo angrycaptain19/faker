@@ -6,10 +6,7 @@ def regon_checksum(digits):
     Calculates and returns a control digit for given list of digits basing on REGON standard.
     """
     weights_for_check_digit = [8, 9, 2, 3, 4, 5, 6, 7]
-    check_digit = 0
-
-    for i in range(0, 8):
-        check_digit += weights_for_check_digit[i] * digits[i]
+    check_digit = sum(weights_for_check_digit[i] * digits[i] for i in range(8))
 
     check_digit %= 11
 
@@ -24,10 +21,7 @@ def local_regon_checksum(digits):
     Calculates and returns a control digit for given list of digits basing on local REGON standard.
     """
     weights_for_check_digit = [2, 4, 8, 5, 0, 9, 7, 3, 6, 1, 2, 4, 8]
-    check_digit = 0
-
-    for i in range(0, 13):
-        check_digit += weights_for_check_digit[i] * digits[i]
+    check_digit = sum(weights_for_check_digit[i] * digits[i] for i in range(13))
 
     check_digit %= 11
 
@@ -42,10 +36,7 @@ def company_vat_checksum(digits):
     Calculates and returns a control digit for given list of digits basing on NIP standard.
     """
     weights_for_check_digit = [6, 5, 7, 2, 3, 4, 5, 6, 7]
-    check_digit = 0
-
-    for i in range(0, 9):
-        check_digit += weights_for_check_digit[i] * digits[i]
+    check_digit = sum(weights_for_check_digit[i] * digits[i] for i in range(9))
 
     check_digit %= 11
 
@@ -112,10 +103,7 @@ class Provider(CompanyProvider):
 
         https://pl.wikipedia.org/wiki/NIP
         """
-        vat_digits = []
-
-        for _ in range(3):
-            vat_digits.append(self.random_digit_not_null())
+        vat_digits = [self.random_digit_not_null() for _ in range(3)]
 
         for _ in range(6):
             vat_digits.append(self.random_digit())

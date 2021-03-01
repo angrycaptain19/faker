@@ -37,14 +37,13 @@ class Provider(BaseProvider):
         """
         if min_chars is None:
             return "".join(self.random_letters(length=max_chars))
-        else:
-            assert (
-                max_chars >= min_chars), "Maximum length must be greater than or equal to minimum length"
-            return "".join(
-                self.random_letters(
-                    length=self.generator.random.randint(min_chars, max_chars),
-                ),
-            )
+        assert (
+            max_chars >= min_chars), "Maximum length must be greater than or equal to minimum length"
+        return "".join(
+            self.random_letters(
+                length=self.generator.random.randint(min_chars, max_chars),
+            ),
+        )
 
     def pystr_format(self, string_format='?#-###{{random_int}}{{random_letter}}', letters=string.ascii_letters):
         return self.bothify(self.generator.parse(string_format), letters=letters)

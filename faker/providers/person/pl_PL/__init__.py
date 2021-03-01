@@ -6,10 +6,11 @@ def checksum_identity_card_number(characters):
     Calculates and returns a control digit for given list of characters basing on Identity Card Number standards.
     """
     weights_for_check_digit = [7, 3, 1, 0, 7, 3, 1, 7, 3]
-    check_digit = 0
+    check_digit = sum(
+        weights_for_check_digit[i] * (ord(characters[i]) - 55)
+        for i in range(3)
+    )
 
-    for i in range(3):
-        check_digit += weights_for_check_digit[i] * (ord(characters[i]) - 55)
 
     for i in range(4, 9):
         check_digit += weights_for_check_digit[i] * characters[i]
@@ -686,10 +687,7 @@ class Provider(PersonProvider):
 
         https://en.wikipedia.org/wiki/Polish_identity_card
         """
-        identity = []
-
-        for _ in range(3):
-            identity.append(self.random_letter().upper())
+        identity = [self.random_letter().upper() for _ in range(3)]
 
         # it will be overwritten by a checksum
         identity.append(0)

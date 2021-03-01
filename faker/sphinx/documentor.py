@@ -34,10 +34,14 @@ def _get_provider_methods(provider_class):
     except (ModuleNotFoundError, AttributeError):
         return ''
     else:
-        return ', '.join([
-            name for name, method in inspect.getmembers(provider, inspect.isfunction)
-            if not name.startswith('_') and name not in BASE_PROVIDER_METHOD_NAMES
-        ])
+        return ', '.join(
+            name
+            for name, method in inspect.getmembers(
+                provider, inspect.isfunction
+            )
+            if not name.startswith('_')
+            and name not in BASE_PROVIDER_METHOD_NAMES
+        )
 
 
 def _get_localized_provider_info(locale):

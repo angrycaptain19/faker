@@ -235,10 +235,8 @@ class Provider(BaseProvider):
             random.choice(ALPHANUMERIC)
         )
 
-        random_rfc = (
+        return (
             name_initials +
             birth_date +
             disambiguation_code
         )
-
-        return random_rfc
